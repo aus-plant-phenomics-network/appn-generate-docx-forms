@@ -1,0 +1,85 @@
+formName: BookingSheetSurvey
+title: APPN Facilities Booking Options
+header_image: /work/logo/APPN_logo_120x120.png
+header_text: APPN Booking Sheet Survey
+section_count: '1'
+note_start: |
+  To follow up from the March 2026 Data EWG meeting, we are gathering an overview of APPN Facility booking methods and Node staff preference for future booking processes.
+  
+  We would like nodes to adopt methods that enable data reuse. This can be facilitated by having booking data systems that are enabled to be programmatically accessible. This requires carefully designed document forms (such as the Docx file you are using now), or the use of online form system (such as ANU Smartsheet), with required licencing.
+  
+  The next few questions are to get feedback on what you use for booking your APPN facilities and what you would be interested in trialing.
+note: |
+  Please save the completed form, including your node name and date in the filename and return to rakesh.david@adelaide.edu.au and/or joshua.bowden@adelaide.edu.au
+rows:
+- type: section
+  text: About you...
+  background: '#558B2F'
+  
+- type: field
+  name: appn_position
+  control: checkboxList
+  items:
+    - Business Manager
+    - Administration
+    - Node Director
+    - Technical and/or Analytical
+  label: Alignement of position in APPN
+  
+  
+- type: field
+  name: appn_node
+  control: dropdown
+  items:
+    - Adelaide University
+    - Australian National University
+    - Charles Sturt University
+    - Department of Primary Industries & Regional Development, WA
+    - La Trobe University
+    - The University of Queensland
+    - The University of Sydney
+    - The University of Western Australia
+    - Western Sydney University
+  label: Please select your APPN Node
+
+
+- type: section
+  text: About your current booking system...
+  background: '#558B2F'
+  
+- type: field
+  name: appn_current_booking_system
+  control: checkboxList
+  items:
+    - email (standard template)
+    - email (ad-hoc request)
+    - Online booking system (e.g. Smartsheet at ANU)
+    - Word Document Form
+    - PDF Form
+    - Other
+  label: Describe the booking system in use at your facility
+  
+- type: field
+  name: appn_current_booking_system_other
+  control: richtext
+  label: If 'Other', then please describe your system
+  
+- type: section
+  text: About a prefered booking system...
+  background: '#558B2F'
+  
+- type: field
+  name: appn_booking_system_preference
+  control: checkboxList
+  items:
+    - MS Word based
+    - Online form (Smartsheet)
+    - Other
+  label: Select a prefered booking system you would like to develop (selecting both is valid).
+
+- type: field
+  name: appn_booking_system_preference_other
+  control: richtext
+  label: If 'Other', then please provide additional information or opinions on booking form procedures.
+
+  

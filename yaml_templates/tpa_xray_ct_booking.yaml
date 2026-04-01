@@ -1,0 +1,915 @@
+formName: TPA_xrayct_booking_sheet
+title: "TPA X-ray CT Booking Sheet"
+header_image: "/work/logo/APPN_logo_120x120.png"
+header_text: "APPN Resource Booking - (Demo)"
+footer_text: "X-ray CT Booking Sheet"
+# Remove a certain number of rows from the table - equal to the number of sections.
+section_count: "20" 
+#  page note to display under the table:
+note: |
+  For questions about X-ray CT hire at The Plant Accelerator® please contact:
+   •	 Bettina Berger    on 08 8313 0825 regarding project design
+   •	 Haoyu Lou         on 08 8313 0345 regarding project design
+   •	 David Field       on 08 8313 4853 regarding pricing and availability
+   •	 Lidia Mischis     on 08 8313 0827 regarding horticultural needs (pots, soil, consumables)
+   
+  Please return the facility booking sheet by email to David.Field@adelaide.edu.au 
+
+rows:
+  
+  - type: section
+    text: "1. Study Description"
+    background: "#558B2F"
+
+  - type: field
+    name: appn:ResearchActivity:code
+    control: text
+    label: "Study code"
+
+  - type: field
+    name: appn:Study
+    control: text
+    label: "Study title"
+
+  - type: field
+    name: studyDescription
+    control: richtext
+    label: "Study description"
+    
+  - type: field
+    name: studyRAID
+    control: richtext
+    label: "Study RAiD (see: www.raid.org)"
+    
+    
+  - type: section
+    text: "2. Contacts"
+    background: "#558B2F"
+    
+  - type: section
+    text: "A. Lab Leader / Supervisor"
+    background: "#90A4AE"
+    
+  - type: field
+    name: contactPerson1_firstname
+    control: text
+    label:  "First name"
+  - type: field
+    name: contactPerson1_lastname
+    control: text
+    label:  "Last name"
+    
+  - type: field
+    name: contactPerson1_orcid
+    control: text
+    label:  "ORCID"
+    
+  - type: field
+    name: contactPerson1_email
+    control: text
+    label:  "Email"
+
+  - type: field
+    name: contactPerson1_phone
+    control: text
+    label:  "Phone"
+    
+  - type: field
+    name: contactPerson1_mobile
+    control: text
+    label:  "Mobile phone"
+
+  - type: field
+    name: contactPerson1_fax
+    control: text
+    label:  "Fax"
+    
+  - type: field
+    name: contactPerson1_postaladdress
+    control: richtext
+    label: |
+      Postal address 
+      (PO box / Suburb / State / Post code / Country)"
+    
+  - type: field
+    name: contactPerson1_physicaladdress
+    control: richtext
+    label: |
+      Physical address 
+      (No. Street / Suburb / State / Postcode / Country)"
+    
+  - type: field
+    name: contactPerson1_institution
+    control: dropdown
+    items: [
+      "empty",    
+      "Adelaide University",
+      "Australian Catholic University",
+      "Australian National University",
+      "Bond University",
+      "Central Queensland University",
+      "Charles Darwin University",
+      "Charles Sturt University",
+      "Curtin University",
+      "Deakin University",
+      "Edith Cowan University",
+      "Federation University Australia",
+      "Flinders University",
+      "Griffith University",
+      "James Cook University",
+      "La Trobe University",
+      "Macquarie University",
+      "Monash University",
+      "Murdoch University",
+      "Queensland University of Technology",
+      "RMIT University",
+      "Southern Cross University",
+      "Swinburne University of Technology",
+      "Torrens University Australia",
+      "University of Canberra",
+      "University of Melbourne",
+      "University of New England (Australia)",
+      "University of New South Wales",
+      "University of Newcastle (Australia)",
+      "University of Queensland",
+      "University of Southern Queensland",
+      "University of Sydney",
+      "University of Tasmania",
+      "University of Technology Sydney",
+      "University of the Sunshine Coast",
+      "University of Western Australia",
+      "University of Wollongong",
+      "Victoria University",
+      "Western Sydney University",
+      "Department of Agriculture, Fisheries and Forestry (Australia)",
+      "NSW Department of Primary Industries",
+      "Commonwealth Scientific and Industrial Research Organisation (CSIRO)",
+      "Australian Centre for International Agricultural Research "
+    ]
+    label:  "Institution"
+    
+  - type: field
+    name: contactPerson1_institutionother
+    control: text
+    label:  "Institution (other)"
+    
+  - type: field
+    name: contactPerson1_ABN
+    control: text
+    label:  "A.B.N."
+    
+  - type: field
+    name: contactPerson1_instStreetAddress
+    control: text
+    label:  "Institution address (or 'as above')"
+
+  - type: section
+    text: "B. Contact Person (Alternative)"
+    background: "#90A4AE"
+    
+  - type: field
+    name: contactPerson2_firstname
+    control: text
+    label:  "First name"
+    
+  - type: field
+    name: contactPerson2_lastname
+    control: text
+    label:  "Last name"
+    
+  - type: field
+    name: contactPerson2_orcid
+    control: text
+    label:  "ORCID"
+    
+  - type: field
+    name: contactPerson2_email
+    control: text
+    label:  "Email"
+
+  - type: field
+    name: contactPerson2_phone
+    control: text
+    label:  "Phone"
+    
+  - type: field
+    name: contactPerson2_mobile
+    control: text
+    label:  "Mobile phone"
+
+  - type: field
+    name: contactPerson2_fax
+    control: text
+    label:  "Fax"
+
+  - type: field
+    name: contactPerson2_institution
+    control: dropdown
+    items: [
+      "empty",    
+      "Adelaide University",
+      "Australian Catholic University",
+      "Australian National University",
+      "Bond University",
+      "Central Queensland University",
+      "Charles Darwin University",
+      "Charles Sturt University",
+      "Curtin University",
+      "Deakin University",
+      "Edith Cowan University",
+      "Federation University Australia",
+      "Flinders University",
+      "Griffith University",
+      "James Cook University",
+      "La Trobe University",
+      "Macquarie University",
+      "Monash University",
+      "Murdoch University",
+      "Queensland University of Technology",
+      "RMIT University",
+      "Southern Cross University",
+      "Swinburne University of Technology",
+      "Torrens University Australia",
+      "University of Adelaide",
+      "University of Canberra",
+      "University of Melbourne",
+      "University of New England (Australia)",
+      "University of New South Wales",
+      "University of Newcastle (Australia)",
+      "University of Queensland",
+      "University of South Australia",
+      "University of Southern Queensland",
+      "University of Sydney",
+      "University of Tasmania",
+      "University of Technology Sydney",
+      "University of the Sunshine Coast",
+      "University of Western Australia",
+      "University of Wollongong",
+      "Victoria University",
+      "Western Sydney University",
+      "Department of Agriculture, Fisheries and Forestry (Australia)",
+      "NSW DPI",
+      "WA DPIRD",
+      "CSIRO",
+      "Australian Centre for International Agricultural Research "
+    ]
+    label:  "Institution"
+
+  - type: field
+    name: contactPerson2_instStreetAddress
+    control: text
+    label:  "Institution address (or 'as above')"
+
+  - type: section
+    text:  "3. Source of Funding"
+    background: "#558B2F"
+    
+  - type: field
+    name: funding_Source
+    control: text
+    label:  "Funding Source (e.g. GRDC, ARC)"
+
+  - type: field
+    name: funding_Research_pc
+    control: text
+    label:  "Research (%)"
+
+  - type: field
+    name: funding_Commercial_pc
+    control: text
+    label:  "Commercial (%)"
+    
+  - type: field
+    name: funding_GrantDescription
+    control: richtext
+    label:  "Grant Description"
+
+  - type: field
+    name: funding_Collaborators
+    control: richtext
+    label:  "Collaborators:"
+
+
+  - type: section
+    text:  "5. Data Management"
+    background: "#558B2F"
+
+  - type: field
+    name: datamanagement_DMPYesNo
+    control: combobox
+    items: ["No", "Yes"]
+    label:  "I have a Data Management Plan"
+    
+  - type: field
+    name: datamanagement_DMPRef
+    control: text
+    label:  "Data Management Plan details (code or document)"
+    
+  - type: field
+    name: datamanagement_DataStorage
+    control: text
+    label:  "Do you agree for APPN to publish data?"
+    
+  - type: field
+    name: datamanagement_DataPublicYesNo
+    control: combobox
+    items: ["No", "Yes"]
+    label:  "Will your data be made public?"
+    
+  - type: field
+    name: datamanagement_DataEmbargo
+    control: text
+    label:  "Do you have an embargo timeframe?"
+    
+  - type: section
+    text:  "5. Adelaide University Customers"
+    background: "#558B2F"
+
+  - type: field
+    name: aucustomers_ProjectCode
+    control: text
+    label:  "Project Code"
+
+  - type: field
+    name: aucustomers_BusUnit
+    control: text
+    label:  "Business Unit"
+
+  - type: field
+    name: aucustomers_Account
+    control: text
+    label:  "Account"
+
+  - type: field
+    name: aucustomers_Fund
+    control: text
+    label:  "Fund"
+    
+  - type: field
+    name: aucustomers_DeptID
+    control: text
+    label:  "Department ID"
+    
+  - type: field
+    name: aucustomers_Campus
+    control: dropdown
+    items: [
+      "Adelaide City Campus (North Terrace)",
+      "Magill Campus",
+      "Mawson Lakes Campus",
+      "Waite Campus",
+      "Roseworthy Campus",
+      "Mount Gambier Campus",
+      "Whyalla Campus"
+    ]
+    label:  "Campus"
+
+
+    
+  - type: section
+    text: "6. Project Description"
+    background: "#558B2F"
+    
+  - type: field
+    name: project_Description
+    control: richtext
+    label:  "Brief description - experimental objective and need"
+
+  - type: section
+    text: "7. Xray-CT Hire"
+    background: "#558B2F"
+    
+  - type: field
+    name: xrayHire_StartDate
+    control: date
+    label: "Start date"
+
+  - type: field
+    name: xrayHire_EndDate
+    control: date
+    label: "End date"
+
+  - type: section
+    text: "8. Sample information"
+    background: "#558B2F"
+
+  - type: field
+    name: plants_or_crop
+    control: text
+    label:  "Plants / crop"
+
+  - type: field
+    name: plants_or_crop_Name
+    control: dropdown
+    items: [
+      "Triticum aestivum (wheat)",
+      "Oryza sativa (rice)",
+      "Zea mays (maize / corn)",
+      "Hordeum vulgare (barley)",
+      "Avena sativa (oats)",
+      "Sorghum bicolor (sorghum)",
+      "Pennisetum glaucum (pearl millet)",
+
+      "Glycine max (soybean)",
+      "Phaseolus vulgaris (common bean)",
+      "Pisum sativum (pea)",
+      "Cicer arietinum (chickpea)",
+      "Lens culinaris (lentil)",
+      "Arachis hypogaea (peanut / groundnut)",
+
+      "Solanum tuberosum (potato)",
+      "Manihot esculenta (cassava)",
+      "Ipomoea batatas (sweet potato)",
+      "Dioscorea alata (yam)",
+      "Beta vulgaris (sugar beet)",
+
+      "Brassica napus (canola / rapeseed)",
+      "Helianthus annuus (sunflower)",
+      "Elaeis guineensis (oil palm)",
+      "Cocos nucifera (coconut)",
+      "Sesamum indicum (sesame)",
+
+      "Gossypium hirsutum (cotton)",
+      "Linum usitatissimum (flax)",
+      "Corchorus olitorius (jute)",
+
+      "Malus domestica (apple)",
+      "Musa × paradisiaca (banana / plantain)",
+      "Citrus sinensis (sweet orange)",
+      "Vitis vinifera (grape)",
+      "Mangifera indica (mango)",
+
+      "Solanum lycopersicum (tomato)",
+      "Capsicum annuum (pepper)",
+      "Allium cepa (onion)",
+      "Brassica oleracea (cabbage)",
+      "Cucumis sativus (cucumber)"
+    ]
+    label:  "Plant species"
+    
+  - type: field
+    name: plants_or_crop_NameOther
+    control: text
+    label:  "Plant species (Other)"
+    
+  - type: field
+    name: plants_or_crop_GM
+    control: combobox
+    items: ["No", "Yes"]
+    label:  "GM or trangenic"
+
+  - type: field
+    name: plants_or_crop_GMExtraInfo
+    control: text
+    label:  "If Yes to GM, further details (text or accompanying filename)"
+
+  - type: field
+    name: plants_or_crop_NumberOfHeads
+    control: text
+    label:  "Number of heads"
+    
+  - type: field
+    name: plants_or_crop_SamplesOrdered
+    control: combobox
+    items: ["No", "Yes"]
+    label:  "Will samples be ordered?"
+    
+  - type: field
+    name: plants_or_crop_SamplesReturned
+    control: combobox
+    items: ["No", "Yes"]
+    label:  "Do you need samples returned?"
+
+  - type: field
+    name: plants_or_crop_SamplesReturnedShipping
+    control: richtext
+    label:  "If Yes, then please provide return shipping information:"
+
+  - type: field
+    name: plants_or_crop_SamplesReminder
+    control: checkboxList
+    items: ["Cross if understood"]
+    label:  "Please leave 5-8 cm of stem attached to spike"
+    
+  - type: field
+    name: plants_or_crop_SamplesSpreadsheet
+    control: text
+    label:  "Sample information (name of spreadsheet)"
+    
+  - type: field
+    name: plants_or_crop_SamplesOtherInfo
+    control: text
+    label:  "Other requirements / additional information (threshing, special handling etc.)"
+    
+  - type: field
+    name: plants_or_crop_SamplesTrialDesign_cb
+    control: checkboxList
+    items: ["Plots are designed" ]
+    label:  "Are the samples collected from a glasshouse or field trial with design?"
+  
+  - type: field
+    name: plants_or_crop_SamplesTrialDesignTPA_cb
+    control: checkboxList
+    items: ["Designed by TPA" ]
+    label:  "Is the trial designed by the TPA?"
+
+  - type: field
+    name: plants_or_crop_SamplesTrialDesignOther_rt
+    control: text
+    label:  |
+      If not, it was designed by who? 
+      (please provide field plot designs)"
+
+  - type: field
+    name: traits_Required
+    control: checkboxList
+    items: ["Cross if understood"]
+    label:  "I understand that pest and disease control will be carried out as required (no omissions)."
+
+
+
+  - type: section
+    text: "9. Results"
+    background: "#558B2F"
+
+  - type: field
+    name: results_AnalysisNote
+    control: text
+    label:  "Standard Analysis:"
+    
+  - type: field
+    name: results_AnalysisTraitsGrainSpike
+    control: checkboxList
+    items: ["Grain traits: grain number, weight, morphology (volume, surface area, length)",
+      "Spike traits: spike length, spike dimension (please specify). " ]
+    label:  "Standard traits available:"
+
+  - type: field
+    name: results_AnalysisAdditionalNote
+    control: text
+    label:  "Additional Requirements (extra hourly rate):"
+
+  - type: field
+    name: results_AnalysisTraitsExtra
+    control: checkboxList
+    items: ["Spike 3D structure",
+      "Spikelet analysis",
+      "Peduncle/stem analysis",
+      "Special reqirement (add below)",
+      "Video and imaging" ]
+    label:  "Extra analysis available:"
+
+  - type: field
+    name: results_AnalysisTraitsExtraNoteContact
+    control: text
+    label:  "Please conact Mia Lou (Haoyu.lou@adelaide.edu.au) to discuss"
+
+  - type: field
+    name: results_AnalysisTraitsExtraNote
+    control: text
+    label:  "Please specify any extra analysis requirements"
+    
+  - type: field
+    name: results_AnalysisTraitsOGTRtraining
+    control: checkboxList
+    items: ["Check if provided" ]
+    label:  "Copies of OGTR training of all users requiring access to the greenhouse will be provided"
+
+
+  - type: section
+    text: "10. Facility Access"
+    background: "#558B2F"
+
+  - type: field
+    name: facilityAccess_keys
+    control: checkboxList
+    items: ["Check if required" ]
+    label:  "Keys required"
+    
+  - type: field
+    name: facilityAccess_desc
+    control: text
+    label:  "Please ensure you name each person who will require access to the facility.  Please note each person will be required to attend a walk-through induction of the facility with Lidia Mischis prior to commencement."
+    
+  - type: field
+    name: facilityAccess_person1Surname
+    control: text
+    label:  "Last name"
+  - type: field
+    name: facilityAccess_person1Firstname
+    control: text
+    label:  "First name"
+  - type: field
+    name: facilityAccess_person1Email
+    control: text
+    label:  "Email"
+  - type: field
+    name: facilityAccess_person1Phone
+    control: text
+    label:  "Phone"
+  - type: field
+    name: facilityAccess_person1Keys
+    control: checkboxList
+    items: ["Check if required" ]
+    label:  "Keys required"
+  - type: field
+    name: facilityAccess_person2Surname
+    control: text
+    label:  "Last name"
+  - type: field
+    name: facilityAccess_person2Firstname
+    control: text
+    label:  "First name"
+  - type: field
+    name: facilityAccess_person2Email
+    control: text
+    label:  "Email"
+  - type: field
+    name: facilityAccess_person2Phone
+    control: text
+    label:  "Phone"
+  - type: field
+    name: facilityAccess_person2Keys
+    control: checkboxList
+    items: ["Check if required" ]
+    label:  "Keys required"
+  - type: field
+    name: facilityAccess_person3Surname
+    control: text
+    label:  "Last name"
+  - type: field
+    name: facilityAccess_person3Firstname
+    control: text
+    label:  "First name"
+  - type: field
+    name: facilityAccess_person3Email
+    control: text
+    label:  "Email"
+  - type: field
+    name: facilityAccess_person3Phone
+    control: text
+    label:  "Phone"
+  - type: field
+    name: facilityAccess_person3Keys
+    control: checkboxList
+    items: ["Check if required" ]
+    label:  "Keys required"
+  - type: field
+    name: facilityAccess_person4Surname
+    control: text
+    label:  "Last name"
+  - type: field
+    name: facilityAccess_person4Firstname
+    control: text
+    label:  "First name"
+  - type: field
+    name: facilityAccess_person4Email
+    control: text
+    label:  "Email"
+  - type: field
+    name: facilityAccess_person4Phone
+    control: text
+    label:  "Phone"
+  - type: field
+    name: facilityAccess_person4Keys
+    control: checkboxList
+    items: ["Check if required" ]
+    label:  "Keys required"
+
+  - type: field
+    name: facilityAccess_otherRequirements
+    control: text
+    label:  "Other requirements / additional information"
+
+
+  - type: section
+    text: |
+      11. Plants/Seeds Genetic Modification
+      Terminology: 
+      Office of the Gene Technology Regulator (OGTR)
+      Notifiable Low Risk Dealings (NLRD)
+    background: "#558B2F"
+    
+  - type: field
+    name: geneticallyModified_Modified
+    control: checkboxList
+    items: ["Yes", "No"]
+    label:  "Are the plants or seeds gentically modified?"
+    
+  - type: section
+    text: "Please choose your between A, B or C as described below:"
+    background: "#90A4AE"
+  - type: section
+    text: "A"
+    background: "#90A4AE"
+    
+  - type: field
+    name: geneticallyModified_NLRD_A
+    control: checkboxList
+    items: ["A"]
+    label: |
+      [A] Our NLRD includes The Plant Accelerator (Cert.3062, 4882 and 3790) as a facility and I have attached a copy for your records.
+
+  - type: field
+    name: geneticallyModified_NLRD_A_Id
+    control: text
+    label:  "OGTR Id"
+  - type: field
+    name: geneticallyModified_NLRD_A_approval_letter
+    control: text
+    label: "NLRD letter name"
+
+  - type: section
+    text: "B"
+    background: "#90A4AE"
+    
+  - type: field
+    name: geneticallyModified_NLRD_B
+    control: checkboxList
+    items: ["B"]
+    label: |
+      [B] The Plant Accelerator (Cert.3062, 4882 and 3790) was not originally listed as an approved facility in our NLRD.
+      I have attached a copy of 
+      a) our NLRD, 
+      and 
+      b) A letter stating that we have sought and gained approval from our Institutional Biosafety Committee (IBC) to have Cert.3062, 4882 and 3790 added to our existing NLRD.
+
+  - type: field
+    name: geneticallyModified_NLRD_B_Id
+    control: text
+    label:  "OGTR Id"
+  - type: field
+    name: geneticallyModified_NLRD_B_approval_letter
+    control: text
+    label: "NLRD letter name:"
+  - type: field
+    name: geneticallyModified_NLRD_B_IBC_approval_letter
+    control: text
+    label: "Institutional Biosafety Committee Approval letter"
+    
+  - type: section
+    text: "C"
+    background: "#90A4AE"
+    
+  - type: field
+    name: geneticallyModified_NLRD_C
+    control: checkboxList
+    items: ["C"]
+    label: |
+      [C] The Plant Accelerator (Cert.3062, 4882 and 3790) was not originally listed in our NLRD.
+      I have attached a copy of 
+      a) The approval of our NLRD with the OGTR identifier on it, 
+      and
+      b) A letter stating that we have sought and gained approval from our Institutional Biosafety Committee (IBC) to have Cert.3062/2010 and 3790/2014 added to our existing NLRD.
+
+  - type: field
+    name: geneticallyModified_NLRD_C_Id
+    control: text
+    label:  "OGTR Id"
+
+  - type: field
+    name: geneticallyModified_NLRD_C_approval_letter
+    control: text
+    label: "NLRD letter name"
+  - type: field
+    name: geneticallyModified_NLRD_C_IBC_approval_letter
+    control: text
+    label: "Institutional Biosafety Committee Approval letter"
+
+  - type: section
+    text: "12. User training documentation"
+    background: "#90A4AE"
+  - type: field
+    name: geneticallyModified_OGTR_training
+    control: checkboxList
+    items: ["OGTR user training documentation attached"]
+    label: |
+      I have attached copies of OGTR training of all users requiring access to the greenhouse as listed in item 9 above.
+    
+  - type: field
+    name: geneticallyModified_OGTR_trainingDoc
+    control: text
+    label:  "Filename of OGTR documentation"
+    
+  - type: section
+    text: "13. Sample Infection "
+    background: "#558B2F"
+    
+  - type: field
+    name: infections_YesNo
+    control: checkboxList
+    items: ["Yes", "No"]
+    label:  "Are the plants infected with, or will they be infected with, microorganisms (including Agrobacterium) or invertebrates?"
+    
+  - type: field
+    name: infected_YesNo
+    control: text
+    label:  "If yes, name of microorganism or invertebrate species"
+    
+  - type: field
+    name: infected_GM_YesNo
+    control: checkboxList
+    items: ["Yes", "No"]
+    label:  "If yes, are the microorganisms or invertebrates genetically modified?"
+    
+  - type: field
+    name: infections_Description
+    control: text
+    label:  "Description of work with microorganisms or invertebrates"
+
+
+  - type: section
+    text: "14. Imported Seeds/Quarantine Material"
+    background: "#558B2F"
+
+  - type: field
+    name: quarantine_YesNo
+    control: checkboxList
+    items: ["Yes", "No"]
+    label:  "Is the sample material imported or quarantine material?"
+    
+  - type: field
+    name: quarantine_ImportPermitNo
+    control: text
+    label:  "Import permit number:"
+    
+  - type: field
+    name: quarantine_ExpiryDate
+    control: date
+    label: "Expiry date"
+    
+  - type: field
+    name: quarantine_YesNo
+    control: checkboxList
+    items: ["Yes", "No"]
+    label:  "I have attached a hardcopy of the import permit:"
+    
+  - type: section
+    text: "15. Quality Assurance framework (QAP) accredited persons responsible for this project are:"
+    background: "#90A4AE"
+    
+  - type: field
+    name: quarantine_QAP_person1Surname
+    control: text
+    label:  "Last name"
+  - type: field
+    name: quarantine_QAP_person1Firstname
+    control: text
+    label:  "First name"
+  - type: field
+    name: quarantine_QAP_person1Email
+    control: text
+    label:  "Email"
+  - type: field
+    name: quarantine_QAP_person1Phone
+    control: text
+    label:  "Phone"
+  - type: field
+    name: quarantine_QAP_person2Surname
+    control: text
+    label:  "Last name"
+  - type: field
+    name: quarantine_QAP_person2Firstname
+    control: text
+    label:  "First name"
+  - type: field
+    name: quarantine_QAP_person2Email
+    control: text
+    label:  "Email"
+  - type: field
+    name: quarantine_QAP_person2Phone
+    control: text
+    label:  "Phone"
+  - type: field
+    name: quarantine_QAP_person3Surname
+    control: text
+    label:  "Last name"
+  - type: field
+    name: quarantine_QAP_person3Firstname
+    control: text
+    label:  "First name"
+  - type: field
+    name: quarantine_QAP_person3Email
+    control: text
+    label:  "Email"
+  - type: field
+    name: quarantine_QAP_person3Phone
+    control: text
+    label:  "Phone"
+  - type: field
+    name: quarantine_QAP_person4Surname
+    control: text
+    label:  "Last name"
+  - type: field
+    name: quarantine_QAP_person4Firstname
+    control: text
+    label:  "First name"
+  - type: field
+    name: quarantine_QAP_person4Email
+    control: text
+    label:  "Email"
+  - type: field
+    name: quarantine_QAP_person4Phone
+    control: text
+    label:  "Phone"
+

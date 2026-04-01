@@ -1,0 +1,137 @@
+name: Generate and Commit DOCX Forms (Word 2016+)
+
+# Assumes structure
+# .
+# ├─ forms/
+# │  ├─ study.yaml
+# │  ├─ contact.yaml
+# ├─ generated-docx/
+# │  ├─ STUDY.docx
+# │  ├─ CONTACT.docx
+# ├─ Dockerfile
+# ├─ pom.xml
+# └─ .github/workflows/generate-docx.yml
+
+
+on:
+  # push:
+    # paths:
+      # - "forms/**/*.yaml"
+      # - "src/**"
+      # - "Dockerfile"
+      # - "pom.xml"
+  workflow_dispatch:
+
+permissions:
+  contents: write   # REQUIRED to commit back to repo
+
+jobs:
+  # ------------------------------------------------------------
+  # Job 1: Generate DOCX via Docker (Linux)
+  # ------------------------------------------------------------
+  generate-docx:
+    runs-on: ubuntu-latest
+
+    outputs:
+      matrix: ${{ steps.build-matrix.outputs.matrix }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install yq
+        run: |
+          sudo wget -qO /usr/local/bin/yq \
+            https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          sudo chmod +x /usr/local/bin/yq
+
+      - name: Build Docker image
+        run: docker build -t generate-docx-form .
+
+      - name: Generate DOCX from YAML
+        run: |
+          mkdir -p output/raw output/meta
+          for yaml in forms/*.yaml; do
+            name=$(yq '.formName // ""' "$yaml")
+            if [ -z "$name" ] || [ "$name" = "null" ]; then
+              name=$(basename "$yaml" .yaml)
+            fi
+
+            echo "Generating $name from $yaml"
+
+            docker run --rm \
+              -v "$PWD:/work" \
+              generate-docx-form \
+              --spec "/work/$yaml" \
+              --out  "/work/output/raw/${name}.docx"
+
+            echo "$name" > "output/meta/${name}.txt"
+          done
+
+      - name: Upload raw DOCX
+        uses: actions/upload-artifact@v4
+        with:
+          name: raw-docx
+          path: output/raw/*.docx
+
+      - name: Upload metadata
+        uses: actions/upload-artifact@v4
+        with:
+          name: docx-meta
+          path: output/meta/*.txt
+
+
+  # ------------------------------------------------------------
+  # Job 2: Convert DOCX to Word 2016+ and commit
+  # ------------------------------------------------------------
+  convert-and-commit:
+    runs-on: windows-latest
+    needs: generate-docx
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Download raw DOCX
+        uses: actions/download-artifact@v4
+        with:
+          name: raw-docx
+          path: raw-docx
+
+      - name: Convert DOCX with Microsoft Word
+        shell: powershell
+        run: |
+          $word = New-Object -ComObject Word.Application
+          $word.Visible = $false
+
+          Get-ChildItem raw-docx\*.docx | ForEach-Object {
+            Write-Host "Converting $($_.Name)"
+            $doc = $word.Documents.Open($_.FullName)
+            if ($doc.CompatibilityMode) { $doc.Convert() }
+            $wdFormatXMLDocument = 12
+            $doc.SaveAs($_.FullName, $wdFormatXMLDocument)
+            $doc.Close()
+          }
+
+          $word.Quit()
+
+      - name: Commit DOCX back to repo
+        shell: bash
+        run: |
+          mkdir -p generated-docx
+          cp raw-docx/*.docx generated-docx/
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add generated-docx/*.docx
+
+          if git diff --cached --quiet; then
+            echo "No DOCX changes to commit."
+            exit 0
+          fi
+
+          git commit -m "Update generated DOCX forms (Word 2016+)"
+          git push

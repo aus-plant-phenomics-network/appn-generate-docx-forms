@@ -1,0 +1,406 @@
+package tools.forms;
+
+import org.docx4j.model.table.TblFactory;
+import org.docx4j.openpackaging.exceptions.Docx4JException;
+import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
+import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
+import org.docx4j.wml.*;
+
+import org.yaml.snakeyaml.Yaml;
+
+import java.io.File;                       // ✅ for pkg.save(new File(...))
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
+
+
+
+// for w14 checkbox JAXBElement fallback
+import jakarta.xml.bind.JAXBElement;
+import javax.xml.namespace.QName;
+
+public class GenerateDocxForm {
+
+    // ------------ YAML model (keeps it simple & type-safe) -------------------
+    public static class Spec {
+        public String title;
+        public String formName;
+        public String note;
+        public List<Field> fields = new ArrayList<>();
+    }
+    public static class Field {
+        public String name;
+        public String control;            // text | richtext | date | dropdown | combobox | checkbox | checkboxList
+        public List<String> items;        // for dropdown/combobox/checkboxList
+        public String alias;
+        public String tag;
+        public Boolean lockContentControl;
+        public Boolean lockContents;
+    }
+
+    // ------------ Main -------------------------------------------------------
+    public static void main(String[] args) throws Exception {
+        Map<String, String> cli = parseArgs(args);
+        String specPath = cli.get("--spec");
+        String outPath  = cli.get("--out");
+        if (specPath == null || outPath == null) {
+            System.err.println("Usage: java -jar generate-docx-form.jar --spec <yaml> --out <docx>");
+            System.exit(2);
+        }
+
+        //Yaml yaml = new Yaml(new Constructor(Spec.class));
+        //Spec spec;
+        /* try (FileReader fr = new FileReader(new File(specPath), StandardCharsets.UTF_8)) {
+            spec = yaml.load(fr);
+        } */
+        /* try (java.io.Reader reader = java.nio.file.Files.newBufferedReader(
+                 java.nio.file.Paths.get(specPath), java.nio.charset.StandardCharsets.UTF_8)) {
+             spec = yaml.load(reader);
+         } */
+        Yaml yaml = new Yaml();
+        Spec spec;
+        try (Reader reader = Files.newBufferedReader(
+                Paths.get(specPath), StandardCharsets.UTF_8)) {
+            spec = yaml.loadAs(reader, Spec.class);
+        }
+
+        if (spec == null) {
+            throw new IllegalArgumentException("Empty or invalid YAML: " + specPath);
+        }
+        buildForm(spec, outPath);
+        System.out.println("Created " + outPath);
+    }
+
+    private static Map<String, String> parseArgs(String[] args) {
+        Map<String, String> out = new HashMap<>();
+        for (int i=0; i<args.length-1; i++) {
+            if (args[i].startsWith("--")) {
+                out.put(args[i], args[i+1]);
+                i++;
+            }
+        }
+        return out;
+    }
+
+    // ------------ Document generation ---------------------------------------
+    private static void buildForm(Spec spec, String outPath) throws Docx4JException {
+        WordprocessingMLPackage pkg = WordprocessingMLPackage.createPackage(); // new blank docx
+        MainDocumentPart mdp = pkg.getMainDocumentPart();
+
+        // ObjectFactory f = Context.getWmlObjectFactory();
+        ObjectFactory f = new ObjectFactory();
+        // Title (centered); fallback to "<formName> Form" if title missing
+        String title = (spec.title != null && !spec.title.isBlank())
+                ? spec.title
+                : ((spec.formName != null ? spec.formName.trim() : "") + " Form").trim();
+        if (!title.isBlank()) {
+            P p = f.createP();
+            PPr ppr = f.createPPr();
+            Jc jc = f.createJc();
+            jc.setVal(JcEnumeration.CENTER);
+            ppr.setJc(jc);
+            p.setPPr(ppr);
+
+            R r = f.createR();
+            Text t = f.createText();
+            t.setValue(title);
+            r.getContent().add(t);
+            p.getContent().add(r);
+            mdp.addObject(p);
+
+            mdp.addParagraphOfText(""); // blank line
+        }
+
+        // Table with headers: "Field" | "Value"
+        int writableWidthTwips = pkg.getDocumentModel()
+                .getSections().get(0).getPageDimensions().getWritableWidthTwips();
+        int cols = 2;
+        int cellWidthTwips = (int)Math.floor((double)writableWidthTwips / cols);
+        Tbl table = TblFactory.createTable(
+                (spec.fields != null ? spec.fields.size() : 0) + 1, // header + rows
+                cols,
+                cellWidthTwips
+        ); // TblFactory is a handy helper for basic tables in docx4j. [8](https://www.javatips.net/api/org.docx4j.model.table.tblfactory)
+
+        // Header row
+        Tr header = (Tr) table.getContent().get(0);
+        setCellTextBold((Tc) header.getContent().get(0), "Field", true);
+        setCellTextBold((Tc) header.getContent().get(1), "Value", true);
+
+        // Rows
+        if (spec.fields != null) {
+            for (int i=0; i<spec.fields.size(); i++) {
+                Field field = spec.fields.get(i);
+                Tr row = (Tr) table.getContent().get(i+1);
+
+                // Column 1: Field name (bold)
+                setCellTextBold((Tc) row.getContent().get(0), nvl(field.name), true);
+
+                // Column 2: control(s)
+                Tc valueCell = (Tc) row.getContent().get(1);
+                P p = para(f); // one paragraph in the cell
+
+                if ("checkboxlist".equalsIgnoreCase(nvl(field.control))) {
+                    // Render multiple checkboxes with labels, inline
+                    if (field.items != null) {
+                        boolean first = true;
+                        for (String label : field.items) {
+                            if (!first) {
+                                p.getContent().add(runWithText(f, " "));
+                            }
+                            p.getContent().add(sdtRunCheckbox(f)); // one checkbox SDT
+                            p.getContent().add(runWithText(f, " " + label));
+                            first = false;
+                        }
+                    }
+                } else {
+                    // Single SDT per cell
+                    SdtRun sdt = makeSdtRunForField(f, field);
+                    p.getContent().add(sdt);
+                }
+                setCellParagraph(valueCell, p);
+            }
+        }
+
+        mdp.addObject(table);
+
+        // Optional note (italic)
+        if (spec.note != null && !spec.note.isBlank()) {
+            mdp.addParagraphOfText(""); // space
+            P pNote = para(f);
+            R r = f.createR();
+            RPr rpr = f.createRPr();
+            BooleanDefaultTrue ital = new BooleanDefaultTrue(); ital.setVal(true);
+            rpr.setI(ital);
+            r.setRPr(rpr);
+            Text t = f.createText(); t.setValue(spec.note);
+            r.getContent().add(t);
+            pNote.getContent().add(r);
+            mdp.addObject(pNote);
+        }
+
+        // Save
+        pkg.save(new File(outPath));
+    }
+
+    // ------------ Helpers: cells, paragraphs, runs ---------------------------
+    private static void setCellTextBold(Tc cell, String text, boolean bold) {
+        // ObjectFactory f = Context.getWmlObjectFactory();
+        ObjectFactory f = new ObjectFactory();
+        P p = para(f);
+        R r = f.createR();
+        if (bold) {
+            RPr rpr = f.createRPr();
+            BooleanDefaultTrue b = new BooleanDefaultTrue(); b.setVal(true);
+            rpr.setB(b);
+            r.setRPr(rpr);
+        }
+        Text t = f.createText(); t.setValue(text);
+        r.getContent().add(t);
+        p.getContent().add(r);
+        setCellParagraph(cell, p);
+    }
+
+    private static void setCellParagraph(Tc cell, P p) {
+        cell.getContent().clear();
+        cell.getContent().add(p);
+    }
+
+    private static P para(ObjectFactory f) {
+        return f.createP();
+    }
+
+    private static R runWithText(ObjectFactory f, String s) {
+        R r = f.createR();
+        Text t = f.createText(); t.setValue(s);
+        r.getContent().add(t);
+        return r;
+    }
+
+    private static String nvl(String s) { return s == null ? "" : s; }
+
+    // ------------ SDT creation (docx4j) -------------------------------------
+    private static SdtRun makeSdtRunForField(ObjectFactory f, Field field) {
+        String ctrl = (field.control == null ? "text" : field.control).toLowerCase(Locale.ROOT);
+
+        SdtRun sdt = f.createSdtRun();
+        SdtPr pr = f.createSdtPr();
+        sdt.setSdtPr(pr);
+
+        // Alias (Title)
+        if (field.alias != null && !field.alias.isBlank()) {
+            SdtPr.Alias alias = new SdtPr.Alias();
+            alias.setVal(field.alias);
+            pr.getRPrOrAliasOrLock().add(f.createSdtPrAlias(alias));
+        }
+        // Tag
+        if (field.tag != null && !field.tag.isBlank()) {
+            Tag tag = f.createTag();
+            tag.setVal(field.tag);
+            pr.getRPrOrAliasOrLock().add(tag);
+        }
+
+        // Locking
+        if (Boolean.TRUE.equals(field.lockContentControl)) {
+            CTLock l = f.createCTLock();
+            l.setVal(STLock.SDT_LOCKED);
+            pr.getRPrOrAliasOrLock().add(f.createSdtPrLock(l));
+        }
+        if (Boolean.TRUE.equals(field.lockContents)) {
+            CTLock l = f.createCTLock();
+            l.setVal(STLock.CONTENT_LOCKED);
+            pr.getRPrOrAliasOrLock().add(f.createSdtPrLock(l));
+        }
+
+        switch (ctrl) {
+            case "dropdown": {
+                CTSdtDropDownList dd = f.createCTSdtDropDownList();
+                if (field.items != null) {
+                    for (String it : field.items) {
+                        CTSdtListItem li = new CTSdtListItem();
+                        li.setDisplayText(String.valueOf(it));
+                        li.setValue(String.valueOf(it));
+                        dd.getListItem().add(li);
+                    }
+                }
+                pr.getRPrOrAliasOrLock().add(f.createSdtPrDropDownList(dd));
+                break;
+            }
+            case "combobox": {
+                CTSdtComboBox cb = f.createCTSdtComboBox();
+                if (field.items != null) {
+                    for (String it : field.items) {
+                        CTSdtListItem li = new CTSdtListItem();
+                        li.setDisplayText(String.valueOf(it));
+                        li.setValue(String.valueOf(it));
+                        cb.getListItem().add(li);
+                    }
+                }
+                pr.getRPrOrAliasOrLock().add(f.createSdtPrComboBox(cb));
+                break;
+            }
+            case "checkbox": {
+                // Word 2010+ checkbox (w14:checkbox) with explicit symbols
+                // so the glyph always renders consistently.
+
+                // 1) Build the w14:checkbox properties
+                org.docx4j.w14.CTSdtCheckbox ck = new org.docx4j.w14.CTSdtCheckbox();
+
+                // Optional: set initial checked state (0/1). If you want “unchecked” by default, skip this.
+                // org.docx4j.w14.CTOnOff on = new org.docx4j.w14.CTOnOff();
+                // on.setVal(1); // 1 = checked, 0 = unchecked
+                // ck.setChecked(on);
+
+                // Choose a symbol font that is widely available to Word.
+                // "MS Gothic" is commonly used by Word for ☒/☐ in examples;
+                // "Segoe UI Symbol" also contains these glyphs.
+                final String checkboxFont = "MS Gothic";  // or "Segoe UI Symbol"
+
+                // Set checked symbol (☒ U+2612) and unchecked symbol (☐ U+2610)
+                org.docx4j.w14.CTSdtCheckboxSymbol checkedSym = new org.docx4j.w14.CTSdtCheckboxSymbol();
+                checkedSym.setVal("2612"); // hex (no leading 0x)
+                checkedSym.setFont(checkboxFont);
+                ck.setCheckedState(checkedSym);
+
+                org.docx4j.w14.CTSdtCheckboxSymbol uncheckedSym = new org.docx4j.w14.CTSdtCheckboxSymbol();
+                uncheckedSym.setVal("2610");
+                uncheckedSym.setFont(checkboxFont);
+                ck.setUncheckedState(uncheckedSym);
+
+                // 2) Add w14:checkbox to <w:sdtPr> via JAXBElement
+                QName qn = new QName("http://schemas.microsoft.com/office/word/2010/wordml", "checkbox");
+                JAXBElement<org.docx4j.w14.CTSdtCheckbox> el =
+                    new JAXBElement<>(qn, org.docx4j.w14.CTSdtCheckbox.class, ck);
+                pr.getRPrOrAliasOrLock().add(el);
+
+                // 3) Seed the inline content with the correct glyph so it renders immediately
+                //    (before Word toggles it). Default to "unchecked"; use "checked" if you set ck.setChecked(1).
+                //    You’ll append this run down below when we create content.
+                break;
+            }
+            case "date": {
+                CTSdtDate date = f.createCTSdtDate();
+
+                // Format: yyyy-MM-dd  (you can change this to another format)
+                CTSdtDate.DateFormat df = new CTSdtDate.DateFormat();
+                df.setVal("yyyy-MM-dd");
+                date.setDateFormat(df);
+
+                // Optional <w:lid> language ID is not required; omit it to avoid class-mismatch issues
+
+                pr.getRPrOrAliasOrLock().add(f.createSdtPrDate(date));
+                break;
+            }
+            case "richtext": {
+                // Rich text control marker lives in CTSdtRichText? In practice, an empty run content under SDT is fine.
+                // If you need explicit marker, plain text SDT also works for free text entry.
+                // We'll leave it as a generic SDT and rely on content area.
+                break;
+            }
+            case "text":
+            default: {
+                CTSdtText tx = f.createCTSdtText();
+                pr.getRPrOrAliasOrLock().add(f.createSdtPrText(tx));
+                break;
+            }
+        }
+
+        // Content container (inline SDT)
+        CTSdtContentRun content = f.createCTSdtContentRun();
+
+        // If it’s a checkbox, seed with the appropriate glyph so it shows up right away
+        if ("checkbox".equals(ctrl)) {
+            // If you set a checked default above, pass true here.
+            appendCheckboxGlyphRun(f, content, /*checked=*/false, "MS Gothic"); // or "Segoe UI Symbol"
+        } else {
+            content.getContent().add(runWithText(f, "")); // default empty
+        }
+
+        sdt.setSdtContent(content);
+        return sdt;
+
+    }
+
+    private static SdtRun sdtRunCheckbox(ObjectFactory f) {
+        Field tmp = new Field();
+        tmp.control = "checkbox";
+        tmp.alias = null; tmp.tag = null;
+        return makeSdtRunForField(f, tmp);
+    }
+    
+    /**
+     * Appends a run to the given CTSdtContentRun with a checkbox glyph,
+     * using a symbol-capable font so it renders reliably in Word.
+     *
+     * @param f        WML ObjectFactory
+     * @param content  The inline SDT content container to append to
+     * @param checked  true = ☒ (U+2612), false = ☐ (U+2610)
+     * @param font     A font that contains the glyphs, e.g. "MS Gothic" or "Segoe UI Symbol"
+     */
+    private static void appendCheckboxGlyphRun(ObjectFactory f,
+                                               CTSdtContentRun content,
+                                               boolean checked,
+                                               String font) {
+        final String glyph = checked ? "\u2612" : "\u2610"; // ☒ or ☐
+
+        // Build a run with font hints so Word picks the right glyph
+        R r = f.createR();
+        RPr rpr = f.createRPr();
+        RFonts rFonts = f.createRFonts();
+        rFonts.setAscii(font);
+        rFonts.setHAnsi(font);
+        rFonts.setEastAsia(font);
+        rFonts.setCs(font);
+        rpr.setRFonts(rFonts);
+        r.setRPr(rpr);
+
+        Text t = f.createText();
+        t.setValue(glyph);
+        r.getContent().add(t);
+
+        content.getContent().add(r);
+    }
+
+}

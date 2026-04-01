@@ -1,0 +1,123 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>tools.forms</groupId>
+  <artifactId>generate-docx-form</artifactId>
+  <version>1.0.0</version>
+
+  <properties>
+    <!-- Java -->
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+
+    <!-- Libraries -->
+    <docx4j.version>11.5.11</docx4j.version>
+    <snakeyaml.version>2.7</snakeyaml.version>
+    <slf4j.version>2.0.13</slf4j.version>
+
+    <!-- Jakarta JAXB -->
+    <jakarta.jaxb.version>3.0.1</jakarta.jaxb.version>
+    <jaxb.runtime.version>3.0.2</jaxb.runtime.version>
+  </properties>
+
+  <dependencies>
+  
+  
+    <dependency>
+      <groupId>org.docx4j</groupId>
+      <artifactId>docx4j-core</artifactId>
+      <version>${docx4j.version}</version>
+    </dependency>
+
+
+    <!-- docx4j (Jakarta JAXB based, includes core + OpenXML objects) -->
+    <dependency>
+      <groupId>org.docx4j</groupId>
+      <artifactId>docx4j-JAXB-ReferenceImpl</artifactId>
+      <version>${docx4j.version}</version>
+    </dependency>
+
+    <!-- SnakeYAML Engine (MIAPPE / polymorphic YAML) -->
+    <dependency>
+      <groupId>org.snakeyaml</groupId>
+      <artifactId>snakeyaml-engine</artifactId>
+      <version>${snakeyaml.version}</version>
+    </dependency> 
+    
+    <dependency>
+      <groupId>org.yaml</groupId>
+      <artifactId>snakeyaml</artifactId>
+      <version>2.2</version>
+    </dependency>
+
+    <!-- Logging (bridges to java.util.logging) -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-jdk14</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+
+    <!-- Jakarta JAXB API 
+    <dependency>
+      <groupId>jakarta.xml.bind</groupId>
+      <artifactId>jakarta.xml.bind-api</artifactId>
+      <version>${jakarta.jaxb.version}</version>
+    </dependency>  -->
+
+    <!-- JAXB runtime implementation 
+    <dependency>
+      <groupId>org.glassfish.jaxb</groupId>
+      <artifactId>jaxb-runtime</artifactId>
+      <version>${jaxb.runtime.version}</version>
+    </dependency> -->
+
+  </dependencies>
+
+  <build>
+    <finalName>generate-docx-form</finalName>
+
+    <plugins>
+
+      <!-- Compiler -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.13.0</version>
+        <configuration>
+          <source>${maven.compiler.source}</source>
+          <target>${maven.compiler.target}</target>
+        </configuration>
+      </plugin>
+
+      <!-- Create runnable fat JAR -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.5.0</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <finalName>${project.build.finalName}-shaded</finalName>
+              <transformers>
+                <transformer
+                  implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <mainClass>tools.forms.GenerateDocxForm</mainClass>
+                </transformer>
+              </transformers>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+  </build>
+
+</project>

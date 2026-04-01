@@ -1,0 +1,39 @@
+# These are a bunch of header and title test values and a logo image
+formName: DemoOutout
+title: "Demo Form"
+
+# N.B. The /work directory is mapped to the users current directory
+header_image: "/work/logo/APPN_logo_120x120.png"  
+header_text: "APPN Resource Booking Sheet - Data Team Demo"
+
+section_count: "1" # used to remove extra lines added to the table
+# Page note to display under the table:
+note: "Please contact the APPN Data team for more information"
+
+rows:
+  - type: section
+    text: "This is a section"
+    background: "#558B2F"
+
+  - type: field
+    name: studyId
+    control: text
+    label: "Text field"
+    
+  - type: field
+    name: growthFacilityDesc
+    control: richtext
+    label: "Rich text description"
+    
+  - type: field
+    name: culturalPractice
+    control: checkboxList
+    items: ["irrigated", "rainfed", "fertigation", "no-till"]
+    label: "Checkbox items"
+    
+  - type: field
+    name: experementalDesignType
+    control: dropdown
+    items: ["RCBD", "CRD", "Split-plot", "Alpha lattice"]
+    label: "Drop down list Experimental Design"
+    
