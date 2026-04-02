@@ -4,7 +4,7 @@ header_image: "/work/logo/APPN_logo_120x120.png"
 header_text: "APPN Resource Booking - (Demo)"
 footer_text: "Drought Spotter Booking Sheet"
 # Remove a certain number of rows from the table - equal to the number of sections.
-section_count: "20" 
+section_count: "1" 
 #  page note to display under the table:
 note: |
   For questions about high-throughput phenotyping at The Plant Accelerator® please contact:

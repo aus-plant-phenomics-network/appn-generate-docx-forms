@@ -15,6 +15,12 @@ import org.docx4j.relationships.Relationship;
 import org.docx4j.model.datastorage.CustomXmlDataStorageImpl;
 import org.docx4j.openpackaging.parts.CustomXmlDataStoragePart;
 
+/* import org.docx4j.wml.ObjectFactory;
+import org.docx4j.wml.P;
+import org.docx4j.wml.PPr;
+import org.docx4j.wml.PPrBase;
+import java.math.BigInteger; */
+
 import org.docx4j.XmlUtils;
 import org.w3c.dom.Document;
 
@@ -332,7 +338,8 @@ public class GenerateDocxForm {
             mdp.addObject(pNote);
         }
         
-        // removes extra lines in rows so the table does not have extra line
+        // counts number of sections to remove from the table
+        // so it does not have extra lines
         int sub_extras = Integer.parseInt(spec.section_count); 
         if (spec.rows != null) {
             // For each row in the yaml 'rows' section
@@ -395,9 +402,17 @@ public class GenerateDocxForm {
                         if (field.items != null) {
 
                             for (String itemLabel : field.items) {
-
+                                
                                 // One paragraph per checkbox 
                                 P itemPara = para(f);
+                                
+                                // Set the spacing between checkboxes so the hover-over 
+                                // text does not block the one above
+                                PPr pPr = f.createPPr();
+                                PPrBase.Spacing spacing = f.createPPrBaseSpacing();
+                                spacing.setAfter(BigInteger.valueOf(200)); // Twips (~10pt)
+                                pPr.setSpacing(spacing);
+                                itemPara.setPPr(pPr);
 
                                 // Create per-item field
                                 Field item = new Field();
@@ -417,7 +432,7 @@ public class GenerateDocxForm {
                                 itemPara.getContent().add(
                                     runWithText(f, " " + itemLabel)
                                 );
-
+                                
                                 valueCell.getContent().add(itemPara);
                             }
                         }
@@ -528,7 +543,7 @@ public class GenerateDocxForm {
         ObjectFactory factory = Context.getWmlObjectFactory();
         MainDocumentPart mdp = pkg.getMainDocumentPart();
 
-        // ✅ Get or create settings part
+        // Get or create settings part
         DocumentSettingsPart dsp = mdp.getDocumentSettingsPart();
         if (dsp == null) {
             dsp = new DocumentSettingsPart();
@@ -539,7 +554,7 @@ public class GenerateDocxForm {
 
         CTSettings settings = dsp.getJaxbElement();
 
-        // ✅ Ensure <w:compat/> exists (prevents legacy mode)
+        // Ensure <w:compat/> exists (prevents legacy mode)
         if (settings.getCompat() == null) {
             CTCompat compat = factory.createCTCompat();
             settings.setCompat(compat);
@@ -593,7 +608,8 @@ public class GenerateDocxForm {
 
     private static R runWithText(ObjectFactory f, String s) {
         R r = f.createR();
-        Text t = f.createText(); t.setValue(s);
+        Text t = f.createText(); 
+        t.setValue(s);
         r.getContent().add(t);
         return r;
     }
@@ -647,11 +663,17 @@ public class GenerateDocxForm {
             case "dropdown": {
                 CTSdtDropDownList dd = f.createCTSdtDropDownList();
                 if (field.items != null) {
-                    for (String it : field.items) {
-                        CTSdtListItem li = new CTSdtListItem();
-                        li.setDisplayText(String.valueOf(it));
-                        li.setValue(String.valueOf(it));
-                        dd.getListItem().add(li);
+                    
+                    if (field.items instanceof List) {
+
+                        for (String value : (List<String>) field.items) {
+                            if (value.contains("|")) {
+                                String[] parts = value.split("\\|", 2);
+                                addDropdownItem(parts[0], parts[1], dd);
+                            } else {
+                                addDropdownItem(value, value, dd);
+                            }
+                        }
                     }
                 }
                 pr.getRPrOrAliasOrLock().add(f.createSdtPrDropDownList(dd));
@@ -694,7 +716,7 @@ public class GenerateDocxForm {
                 uncheckedSym.setFont(checkboxFont);
                 cb.setUncheckedState(uncheckedSym);
 
-                // ✅ Attach checkbox to SDT properties (no factory helper exists)
+                // Attach checkbox to SDT properties (no factory helper exists)
                 QName qn = new QName(
                     "http://schemas.microsoft.com/office/word/2010/wordml",
                     "checkbox"
@@ -750,7 +772,15 @@ public class GenerateDocxForm {
 
     }
 
-
+    private static void addDropdownItem(String displayText,
+                                        String value,
+                                        CTSdtDropDownList dd) {
+        CTSdtListItem li = new CTSdtListItem();
+        li.setDisplayText(displayText);
+        li.setValue(value);
+        dd.getListItem().add(li);    
+    }
+    
     /**
      * Appends a run to the given CTSdtContentRun with a checkbox glyph,
      * using a symbol-capable font so it renders reliably in Word.

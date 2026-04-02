@@ -8,7 +8,10 @@ header_text: "APPN Resource Booking Sheet - Data Team Demo"
 
 section_count: "1" # used to remove extra lines added to the table
 # Page note to display under the table:
-note: "Please contact the APPN Data team for more information"
+note_start: |
+  This is some information placed before the table
+note: |
+  This is information placed after the table (and in italics)
 
 rows:
   - type: section
@@ -16,24 +19,32 @@ rows:
     background: "#558B2F"
 
   - type: field
-    name: studyId
+    name: study.id
     control: text
     label: "Text field"
     
   - type: field
-    name: growthFacilityDesc
+    name: facility.description
     control: richtext
     label: "Rich text description"
     
   - type: field
-    name: culturalPractice
+    name: experiment.culturalpractice
     control: checkboxList
     items: ["irrigated", "rainfed", "fertigation", "no-till"]
     label: "Checkbox items"
     
   - type: field
-    name: experementalDesignType
+    name: experiment.design
     control: dropdown
     items: ["RCBD", "CRD", "Split-plot", "Alpha lattice"]
     label: "Drop down list Experimental Design"
     
+  - type: field
+    name: organisation.ror
+    control: dropdown    
+    items: [
+      "AU|https://ror.org/028g18b61",
+      "CSIRO|https://ror.org/03qn8fb07"
+     ]
+    label: Organisation (links with ROR)

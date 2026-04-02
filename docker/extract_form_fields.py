@@ -293,7 +293,7 @@ def deserialize_docx4j_yaml_from_docx(docx_path: str) -> List[str]:
               "type": "embedded_yaml",
               "format": "yaml",
               "note": "This is the YAML code that created the docx file using code from the APPN code repository",
-              "repository": "https://github.com/aus-plant-phenomics-network/appn-data-system-notes-internal/tree/main/metadata-ro-crate-git-hdf5-notes/docx-metadata-sripts/docx4j",
+              "repository": "https://github.com/aus-plant-phenomics-network/appn-generate-docx-forms",
               "source": name,
               "content": yaml_text
             }

@@ -16,6 +16,7 @@ Options:
   -o, --out <file>         Output DOCX file
   -x, --extract <file>     Extract fields from DOCX
   -j, --json <file>        JSON output file
+  -y, --yaml               Save the YAML that created the DOCX
   -h, --help               Show this help
 EOF
 }
@@ -24,8 +25,8 @@ EOF
 # GNU getopt parsing
 # -------------------------
 PARSED=$(getopt \
-  --options s:o:x:j:h \
-  --longoptions spec:,out:,extract:,json:,help \
+  --options s:o:x:j:yh \
+  --longoptions spec:,out:,extract:,json:,yaml,help \
   --name "$0" \
   -- "$@"
 )
@@ -65,8 +66,8 @@ while true; do
       shift 2
       ;;
     -y|--yaml)
-      YAML_OUT="$2"
-      shift 2
+      YAML_OUT="-y"
+      shift 1
       ;;
     -h|--help)
       usage
@@ -96,12 +97,12 @@ if [[ "$MODE" == "extract" ]]; then
   echo "> Extracting fields from DOCX: $EXTRACT"
 
   if [[ -n "$JSON_OUT" ]]; then
-    python3 /app/extract_form_fields.py -f "$EXTRACT" -y > "$JSON_OUT"
+    python3 /app/extract_form_fields.py -f "$EXTRACT" "$YAML_OUT" > "$JSON_OUT"
     echo "> JSON written to $JSON_OUT"
   else
     # Extracts embedded yaml from docx and saves it as YAML to input 
     # file name with .yml extension
-    python3 /app/extract_form_fields.py -f "$EXTRACT" -w
+    python3 /app/extract_form_fields.py -f "$EXTRACT" "$YAML_OUT" -w
   fi
 
   exit 0

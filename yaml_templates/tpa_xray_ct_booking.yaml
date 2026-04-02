@@ -4,7 +4,7 @@ header_image: "/work/logo/APPN_logo_120x120.png"
 header_text: "APPN Resource Booking - (Demo)"
 footer_text: "X-ray CT Booking Sheet"
 # Remove a certain number of rows from the table - equal to the number of sections.
-section_count: "20" 
+section_count: "1" 
 #  page note to display under the table:
 note: |
   For questions about X-ray CT hire at The Plant Accelerator® please contact:
@@ -147,11 +147,59 @@ rows:
       "Australian Centre for International Agricultural Research "
     ]
     label:  "Institution"
+  - type: field
+    name: contactPerson1_institutionROR
+    control: dropdown
+    items: [
+    University of Adelaide|https://ror.org/03yrm5c26,
+    Australian Catholic University|https://ror.org/02bfwt286,
+    Australian National University|https://ror.org/019wvm592,
+    Bond University|https://ror.org/04gqk5903,
+    Central Queensland University|https://ror.org/01t4mnb85,
+    Charles Darwin University|https://ror.org/033jp9b24,
+    Charles Sturt University|https://ror.org/05x3v5872,
+    Curtin University|https://ror.org/041sp6k65,
+    Deakin University|https://ror.org/00xxkcv63,
+    Edith Cowan University|https://ror.org/02xhj8938,
+    Federation University Australia|https://ror.org/02qvtgh24,
+    Flinders University|https://ror.org/04yrvxs32,
+    Griffith University|https://ror.org/02xs1kz22,
+    James Cook University|https://ror.org/0242jrf67,
+    La Trobe University|https://ror.org/03r8z3t59,
+    Macquarie University|https://ror.org/005h2a279,
+    Monash University|https://ror.org/02bfwt286,
+    Murdoch University|https://ror.org/01bkn6z15,
+    Queensland University of Technology|https://ror.org/00hx57361,
+    RMIT University|https://ror.org/02f4ks689,
+    Southern Cross University|https://ror.org/01wf8yh77,
+    Swinburne University of Technology|https://ror.org/02zxrkp14,
+    Torrens University Australia|https://ror.org/03h6fqw76,
+    University of Canberra|https://ror.org/02zcyfp28,
+    University of Melbourne|https://ror.org/01ej9dk98,
+    University of New England (Australia)|https://ror.org/02t3pwb06,
+    University of New South Wales|https://ror.org/03r8z3t59,
+    University of Newcastle (Australia)|https://ror.org/00s0xk282,
+    University of Queensland|https://ror.org/01qrx0u11,
+    University of Southern Queensland|https://ror.org/01n8jqh41,
+    University of Sydney|https://ror.org/05yn6rf45,
+    University of Tasmania|https://ror.org/04x3g2j84,
+    University of Technology Sydney|https://ror.org/03mtejq47,
+    University of the Sunshine Coast|https://ror.org/02jrw3v30,
+    University of Western Australia|https://ror.org/02jx3x895,
+    University of Wollongong|https://ror.org/00fp50x39,
+    Victoria University|https://ror.org/05c6h2r38,
+    Western Sydney University|https://ror.org/02z7yqz47,
+    Department of Agriculture, Fisheries and Forestry (Australia)|https://ror.org/03n7fx796,
+    NSW Department of Primary Industries|https://ror.org/02fgq4k08,
+    Commonwealth Scientific and Industrial Research Organisation (CSIRO)|https://ror.org/03qn8fb07,
+    Australian Centre for International Agricultural Research|https://ror.org/02j1r7c09,
+    ]
+    label:  "Institution ROR"
     
   - type: field
     name: contactPerson1_institutionother
     control: text
-    label:  "Institution (other)"
+    label:  "Institution (other, please include ror.org id)"
     
   - type: field
     name: contactPerson1_ABN
