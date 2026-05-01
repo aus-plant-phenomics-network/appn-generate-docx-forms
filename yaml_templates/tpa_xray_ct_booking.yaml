@@ -3,8 +3,11 @@ title: "TPA X-ray CT Booking Sheet"
 header_image: "/work/logo/APPN_logo_120x120.png"
 header_text: "APPN Resource Booking - (Demo)"
 footer_text: "X-ray CT Booking Sheet"
-# Remove a certain number of rows from the table - equal to the number of sections.
+# Remove a certain number of rows from the table - N.B. leave as 1 .
 section_count: "1" 
+#  page note to display under the table:
+note_start: |
+  Please fill in the relevant details below.
 #  page note to display under the table:
 note: |
   For questions about X-ray CT hire at The Plant Accelerator® please contact:
@@ -441,6 +444,10 @@ rows:
     text: "8. Sample information"
     background: "#558B2F"
 
+  - type: section
+    text: "Plants / crop"
+    background: '#90A4AE'
+  
   - type: field
     name: plants_or_crop
     control: text
@@ -499,6 +506,11 @@ rows:
     name: plants_or_crop_NameOther
     control: text
     label:  "Plant species (Other)"
+
+  - type: field
+    name: plants_or_crop_NameCultivar
+    control: richtext
+    label:  "Cultivars"
     
   - type: field
     name: plants_or_crop_GM
@@ -566,10 +578,10 @@ rows:
     control: text
     label:  |
       If not, it was designed by who? 
-      (please provide field plot designs)"
+      (please provide field plot designs)
 
   - type: field
-    name: traits_Required
+    name: plants_or_crop_PestControlAcceptance
     control: checkboxList
     items: ["Cross if understood"]
     label:  "I understand that pest and disease control will be carried out as required (no omissions)."

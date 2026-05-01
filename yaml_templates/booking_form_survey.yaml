@@ -1,34 +1,28 @@
 formName: BookingSheetSurvey
-title: APPN Facilities Booking Options
+title: APPN Facilities Booking Methods Survey
 header_image: /work/logo/APPN_logo_120x120.png
 header_text: APPN Booking Sheet Survey
 section_count: '1'
 note_start: |
-  To follow up from the March 2026 Data EWG meeting, we are gathering an overview of APPN Facility booking methods and Node staff preference for future booking processes.
+  To follow up from the March 2026 Data EWG meeting, the Central Data Team (CDT) is gathering an overview of APPN facility booking methods and Node staff preference for future booking processes.
   
-  We would like nodes to adopt methods that enable data reuse. This can be facilitated by having booking data systems that are enabled to be programmatically accessible. This requires carefully designed document forms (such as the Docx file you are using now), or the use of online form system (such as ANU Smartsheet), with required licencing.
+  The CDT will assist nodes in metadata capture processes. Ideally, metadata should be collected as early as possible during the study to avoid having to do this retrospectively after the study is completed or having to double enter metadata that could lead to errors.
   
-  The next few questions are to get feedback on what you use for booking your APPN facilities and what you would be interested in trialing.
+  For this reason, we would like to assess if the current booking methods used by Nodes support programmatic access for metadata capture. For example, booking forms that are not machine-readable could be replaced by Docx files that visually resemble Word or PDF-based forms, but have the advantage of being programmatically accessible for metadata capture. The survey you are completing now is an example of a DocX file used in this way.
+  
+  Other booking systems (such as the ANU SmartSheet: https://app.smartsheet.au/), or third-party system, may need alternative solutions for metadata extraction which the CDT will assess individually.
+  
+  The next few questions are to get feedback on what you use for booking your APPN facilities and what you would be interested in trialling.
+
 note: |
   Please save the completed form, including your node name and date in the filename and return to rakesh.david@adelaide.edu.au and/or joshua.bowden@adelaide.edu.au
 rows:
 - type: section
-  text: About you...
+  text: 1. About you...
   background: '#558B2F'
   
 - type: field
-  name: appn_position
-  control: checkboxList
-  items:
-    - Business Manager
-    - Administration
-    - Node Director
-    - Technical and/or Analytical
-  label: Alignement of position in APPN
-  
-  
-- type: field
-  name: appn_node
+  name: appn_staff_node
   control: dropdown
   items:
     - Adelaide University
@@ -42,9 +36,24 @@ rows:
     - Western Sydney University
   label: Please select your APPN Node
 
+- type: field
+  name: appn_staff_name
+  control: text
+  label: Staff name
+
+- type: field
+  name: appn_staff_position
+  control: checkboxList
+  items:
+    - Business Manager
+    - Administration
+    - Node Director
+    - Technical and/or Analytical
+  label: Alignment of position in APPN
+
 
 - type: section
-  text: About your current booking system...
+  text: 2. About your current booking system...
   background: '#558B2F'
   
 - type: field
@@ -53,33 +62,55 @@ rows:
   items:
     - email (standard template)
     - email (ad-hoc request)
-    - Online booking system (e.g. Smartsheet at ANU)
-    - Word Document Form
+    - MS Word Document Form
     - PDF Form
+    - Online booking system (e.g. ANU Smartsheet)
+    - University data management system
+    - Excel/Google spreadsheet
     - Other
   label: Describe the booking system in use at your facility
+
+
+- type: section
+  text: If ‘Other’ or online booking system, please provide details
+  background: '#90A4AE'
   
+
 - type: field
   name: appn_current_booking_system_other
+  control: text
+  label: Name of the system
+  
+- type: field
+  name: appn_licenses_required
+  control: dropdown
+  items:
+    - Yes
+    - No
+  label: Licenses required
+  
+- type: field
+  name: appn_api_details
   control: richtext
-  label: If 'Other', then please describe your system
+  label: API details if known
+  
   
 - type: section
-  text: About a prefered booking system...
+  text: 3. About a prefered booking system...
   background: '#558B2F'
   
 - type: field
   name: appn_booking_system_preference
   control: checkboxList
   items:
-    - MS Word based
+    - MS Word (docx based)
     - Online form (Smartsheet)
     - Other
-  label: Select a prefered booking system you would like to develop (selecting both is valid).
+  label: Select a prefered booking system you would like to develop (selecting more than one is valid).
 
 - type: field
   name: appn_booking_system_preference_other
   control: richtext
-  label: If 'Other', then please provide additional information or opinions on booking form procedures.
+  label: If 'Other', then please provide additional information or opinions on preferred booking form procedures.
 
   

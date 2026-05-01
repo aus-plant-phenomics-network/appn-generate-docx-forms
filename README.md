@@ -76,7 +76,7 @@ docker run --rm -it --entrypoint /bin/bash generate-docx-form
 
 ### 2. Generate a docx file from the yaml template:
 ```bash
-docker run -d  -u $(id -u):$(id -g) -v "$PWD:/work" generate-docx-form  --spec /work/booking_form.yaml --out /work/booking_form.docx
+docker run --rm -u $(id -u):$(id -g) -v "$PWD:/work" generate-docx-form  --spec /work/booking_form.yaml --out /work/booking_form.docx
 ```
 
 If docx file is not produced, check the logs
