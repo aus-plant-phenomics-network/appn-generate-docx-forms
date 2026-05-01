@@ -40,16 +40,6 @@ This mirrors ORCID’s intended use *and* supports APPN’s heterogeneous workfl
 
 ***
 
-If you want next, I can:
-
-*   Add a **field‑operations branch** (no booking → later metadata capture)
-*   Produce a **sequence diagram** version
-*   Annotate with **“allowed / not allowed” governance rules**
-*   Align labels with **APPN schema classes** (Agent, Person, Creator)
-
-Just tell me which variant you want.
-
-
 
 ## Obtaining a verified ORCID from a user.
 
