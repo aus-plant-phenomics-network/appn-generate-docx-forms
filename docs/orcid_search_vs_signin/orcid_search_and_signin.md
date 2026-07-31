@@ -1,7 +1,7 @@
 
 ## Workflow for ORCID authentication:
 
-
+See: [orcid_search_and_signin](https://github.com/aus-plant-phenomics-network/appn-generate-docx-forms/blob/main/docs/orcid_search_vs_signin/orcid_search_and_signin.md)
 ***
 
 ```mermaid
