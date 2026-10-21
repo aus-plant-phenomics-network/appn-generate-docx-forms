@@ -1,0 +1,124 @@
+# syntax=docker/dockerfile:1.7
+
+# Replace each placeholder digest with the real approved SHA-256 digest.
+ARG BUILD_IMAGE=eclipse-temurin:21-jdk-jammy@sha256:REPLACE_WITH_BUILD_IMAGE_DIGEST
+ARG RUNTIME_IMAGE=eclipse-temurin:21-jre-jammy@sha256:REPLACE_WITH_RUNTIME_IMAGE_DIGEST
+
+
+# ------------------------------------------------------------
+# Build stage
+# ------------------------------------------------------------
+FROM ${BUILD_IMAGE} AS build
+
+WORKDIR /src
+
+# Copy build metadata first to improve dependency caching.
+COPY --chmod=0755 mvnw ./mvnw
+COPY .mvn ./.mvn
+COPY pom.xml ./pom.xml
+
+# Download dependencies without copying the complete source tree.
+#
+# BuildKit cache mounts speed up future builds without placing the
+# Maven cache in the final image.
+RUN --mount=type=cache,target=/root/.m2 \
+    ./mvnw \
+      --batch-mode \
+      --no-transfer-progress \
+      dependency:go-offline
+
+# Copy only the source files needed for compilation.
+COPY src ./src
+
+# Build and test the application.
+#
+# Do not use -DskipTests for the approved production image unless
+# tests are performed in a separate mandatory pipeline stage.
+RUN --mount=type=cache,target=/root/.m2 \
+    ./mvnw \
+      --batch-mode \
+      --no-transfer-progress \
+      clean \
+      verify
+
+# Copy the runnable JAR to a stable filename.
+#
+# Adjust the glob if the build creates multiple JAR files.
+RUN set -eux; \
+    jar_file="$(find target \
+      -maxdepth 1 \
+      -type f \
+      -name '*.jar' \
+      ! -name '*-sources.jar' \
+      ! -name '*-javadoc.jar' \
+      ! -name 'original-*.jar' \
+      -print \
+      -quit)"; \
+    test -n "${jar_file}"; \
+    cp "${jar_file}" /tmp/generate-docx-form.jar
+
+
+# ------------------------------------------------------------
+# Runtime stage
+# ------------------------------------------------------------
+FROM ${RUNTIME_IMAGE} AS runtime
+
+ARG APP_UID=10001
+ARG APP_GID=10001
+
+# Create a dedicated, unprivileged account.
+#
+# The account has:
+# - a fixed UID and GID
+# - no password
+# - no interactive shell
+# - no administrative privileges
+RUN set -eux; \
+    groupadd \
+      --gid "${APP_GID}" \
+      --system app; \
+    useradd \
+      --uid "${APP_UID}" \
+      --gid "${APP_GID}" \
+      --system \
+      --no-create-home \
+      --home-dir /nonexistent \
+      --shell /usr/sbin/nologin \
+      app
+
+WORKDIR /opt/generate-docx-form
+
+# Application files remain owned by root and cannot be modified by the
+# unprivileged runtime process.
+COPY --from=build \
+    --chown=root:root \
+    --chmod=0444 \
+    /tmp/generate-docx-form.jar \
+    ./generate-docx-form.jar
+
+# /work is the only location where the converter is expected to read
+# input and write output. At runtime it will be replaced by the bind mount.
+RUN set -eux; \
+    mkdir -p /work; \
+    chown "${APP_UID}:${APP_GID}" /work; \
+    chmod 0700 /work
+
+# Configure Java for containers and headless document generation.
+ENV JAVA_TOOL_OPTIONS="\
+-Djava.awt.headless=true \
+-Dfile.encoding=UTF-8 \
+-XX:+ExitOnOutOfMemoryError \
+-XX:MaxRAMPercentage=75.0"
+
+# Default to the dedicated, non-root account.
+#
+# Your backend can override this with:
+# --user "$(id -u):$(id -g)"
+USER ${APP_UID}:${APP_GID}
+
+# JSON array form avoids invoking a shell.
+ENTRYPOINT [
+    "java",
+    "-jar",
+    "/opt/generate-docx-form/generate-docx-form.jar"
+]

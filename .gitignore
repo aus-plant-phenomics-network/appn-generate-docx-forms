@@ -22,3 +22,181 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# virtual environments
+**/.venv/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+*.egg
+MANIFEST
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+.pytest_cache/
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+
+# Type checkers
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Environments
+.env
+.env.*
+.venv/
+venv/
+env/
+ENV/
+.python-version
+
+# Poetry
+poetry.lock
+
+# Pipenv
+Pipfile.lock
+
+# Hatch
+.hatch/
+
+# Ruff
+.ruff_cache/
+
+# PDM
+.pdm-python
+.pdm-build/
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+
+# Flask
+instance/
+.webassets-cache
+
+# FastAPI
+*.sqlite3
+
+# Sphinx documentation
+docs/_build/
+
+# PyInstaller
+*.manifest
+*.spec
+
+# PyBuilder
+target/
+
+# pyenv
+.python-version
+
+# VS Code
+.vscode/
+
+# JetBrains IDEs
+.idea/
+*.iml
+
+# Visual Studio
+.vs/
+
+# Vim
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Linux
+*~
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Generated files
+*.bak
+*.orig
+
+# Secrets and credentials
+.secrets/
+secrets.json
+*.pem
+*.key
+
+# Local configuration
+config.local.*
+.local/
+
+# Coverage reports
+coverage/
+.coverage.*
+
+# Profiling
+.prof
+
+# Maturin / Rust extensions
+target/
+
+# Nuitka
+*.build/
+
+# UV
+.uv/
+
+# PyCharm
+.idea_modules/

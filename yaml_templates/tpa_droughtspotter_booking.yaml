@@ -1,6 +1,6 @@
 formName: TPA_droughtspotter_booking_sheet
 title: "TPA Drought Spotter Booking Sheet"
-header_image: "/work/logo/APPN_logo_120x120.png"
+header_image: "/opt/logo/APPN_logo_120x120.png"
 header_text: "APPN Resource Booking - (Demo)"
 footer_text: "Drought Spotter Booking Sheet"
 # Remove a certain number of rows from the table - equal to the number of sections.
@@ -435,7 +435,7 @@ rows:
     text: "Plant Maintenance (what are you growing / what are your needs regarding soil and pots?): "
     background: "#558B2F"
     
- - type: field
+  - type: field
     name: plants_or_crop_NWhoWillGrow
     control: checkBoxList
     items: [
@@ -528,8 +528,8 @@ rows:
     name: plants_or_crop_cb_SeedPurity
     control: checkboxList
     items: ["tested",
-        "not tested" 
-        "good" 
+        "not tested", 
+        "good", 
         "poor (seed cleaning required)" ]
     label:  "Seed purity"
     
@@ -1069,17 +1069,13 @@ rows:
     control: text
     label:  "Filename of OGTR documentation"
     
-    
-    
-
-
 
   - type: section
     text: "8. Other Services"
     background: "#558B2F"
     
   - type: field
-    name: otherservices_Harvesting_threshing:
+    name: "otherservices_Harvesting_threshing"
     control: text
     label:  "Harvesting / threshing"
   - type: field

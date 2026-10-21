@@ -1,0 +1,270 @@
+Name or TitleformName: APPN_metadata_booking_example
+title: "APPN Service Booking Metadata Example Form"
+header_image: "/opt/logo/APPN_Logo_Transparent_medium.png"
+header_text: ""
+footer_text: "APPN Booking Sheet Metadata"
+# Remove a certain number of rows from the table - N.B. leave as 1 .
+section_count: "1" 
+#  page note to before the table:
+note_start: |
+  This is a template generated Microsoft Word form showing the field names that match the metadata names 
+  being used in APPN booking data collection.
+  
+  Please fill in the relevant details below.
+#  page note to display under the table:
+note: |
+  For further enquiries contact rakesh.david@adelaide.edu.au of the APPN Data Team
+
+rows:
+  
+  - type: section
+    text: "1. Investigation"
+    background: "#558B2F"
+
+  - type: field
+    name: appn:Investigation#schema:identifier
+    control: text
+    label: "Identifier (e.g. RAID www.raid.org or other)"
+
+  - type: field
+    name: appn:Investigation#schema:name
+    control: text
+    label: "Name or Title"
+
+  - type: field
+    name: appn:Investigation#schema:description
+    control: richtext
+    label: "Description"
+    
+  - type: section
+    text: "2. Study"
+    background: "#558B2F"
+
+  - type: field
+    name: appn:Study#schema:identifier
+    control: text
+    label: "Study Id (Internal Id, DOI or RAID)"
+
+  - type: field
+    name: appn:Study#schema:alternateName
+    control: text
+    label: "Alternate identifier (Internal Id)"
+    
+  - type: field
+    name: appn:Study#schema:name
+    control: text
+    label: "Name or Title of study" 
+
+  - type: field
+    name: appn:Study#schema:description
+    control: richtext
+    label: "Description"
+
+  - type: field
+    name: appn:Study#schema:additionalType
+    control: dropdown
+    items: ["Academic", "Industiral", "Academic & Industrial"]
+    label: "Study type "
+
+  - type: section
+    text: "3. Person"
+    background: "#558B2F"
+
+  - type: field
+    name: appn:Person#schema:givenName
+    control: text
+    label: "Given name"
+
+  - type: field
+    name: appn:Person#schema:familyName
+    control: text
+    label: "Family name"
+
+  - type: field
+    name: appn:Person#schema:identifier
+    control: text
+    label: "Id (ORCID)"
+
+  - type: field
+    name: appn:Person#schema:email
+    control: text
+    label: "Email"
+
+  - type: field
+    name: appn:Person#schema:jobTitle
+    control: text
+    label: "Job Title"
+
+  - type: field
+    name: appn:Person#schema:roleName
+    control: text
+    label: "Role name"
+
+  - type: field
+    name: appn:Person#schema:affiliation
+    control: text
+    label: "Affiliation"  
+
+  - type: section
+    text: "4. Organization"
+    background: "#558B2F"
+
+  - type: field
+    name: schema:Organization#schema:legalName
+    control: text
+    label: "Organisation name" 
+
+  - type: field
+    name: schema:Organization#schema:identifier
+    control: text
+    label: "Organisation Id (ROR www.ror.org)" 
+
+  - type: field
+    name: schema:Organization#schema:legalAddress
+    control: text
+    label: "Address"
+
+  - type: field
+    name: schema:Organization#schema:roleName
+    control: dropdown
+    items: ["collaborator", "commercial partner", "industry partner"]
+    label: "Role"
+
+  - type: section
+    text: "5. Grant"
+    background: "#558B2F"
+
+  - type: field
+    name: schema:Grant#schema:name
+    control: text
+    label: "Grant name"
+
+  - type: field
+    name: schema:Grant#schema:identifier
+    control: text
+    label: "Grant Id"
+
+  - type: field
+    name: schema:Grant#schema:funder
+    control: text
+    label: "Funding body"
+
+  - type: field
+    name: schema:Grant#schema:fundedItem
+    control: text
+    label: "Funded item (person full name or study)"
+
+  - type: field
+    name: schema:Grant#schema:amount
+    control: text
+    label: "Grant ammount (AUD)"
+
+  - type: section
+    text: "6. Spatial Location"
+    background: "#558B2F"
+
+  - type: field
+    name: appn:SpatialLocation#schema:name
+    control: text
+    label: "Site name"
+ 
+  - type: field
+    name: appn:SpatialLocation#schema:latitude
+    control: text
+    label: "Latitude"
+
+  - type: field
+    name: appn:SpatialLocation#schema:longitude
+    control: text
+    label: "Longitude"
+
+  - type: field
+    name: appn:SpatialLocation#schema:polygon
+    control: text
+    label: "Polygon (as a string)"
+
+  - type: section
+    text: "7. Growth Facility"
+    background: "#558B2F"
+
+  - type: field
+    name: appn:GrowthFacility#schema:name
+    control: text
+    label: "Name (see www.id.plantphenomics.org.au/)"
+
+  - type: field
+    name: appn:GrowthFacility#appn:hasGrowthFacilityType
+    control: text
+    label: "GrowthFacility type (see https://vocabs.ardc.edu.au/vocabs/page/widget_explorer)"
+
+  - type: section
+    text: "8. Sensor - "
+    background: "#558B2F"
+
+  - type: field
+    name: appn:Sensor#schema:name
+    control: text
+    label: "Sensor name (e.g. )"
+
+  - type: field
+    name: appn:Sensor#appn:hasSensorType
+    control: text
+    label: "Sensor type (e.g. )"
+
+  - type: section
+    text: "9. Biological Material"
+    background: "#558B2F"
+
+  - type: field
+    name: appn:BiologicalMaterial#schema:name
+    control: text
+    label: "Name (common name)"
+
+  - type: field
+    name: appn:BiologicalMaterial#schema:identifier
+    control: text
+    label: "Id (from https://id.plantphenomics.org.au/) "
+
+  - type: field
+    name: appn:BiologicalMaterial#appn:scientificName
+    control: text
+    label: "Scientific name"
+
+  - type: field
+    name: appn:BiologicalMaterial#appn:cultivarEpithet
+    control: text
+    label: "Variety/cultivar name"
+
+  - type: field
+    name: appn:BiologicalMaterial#appn:hasPreprocessing
+    control: text
+    label: "Storage conditions"
+
+  - type: field
+    name: appn:BiologicalMaterial#appn:geneticallyModifiedStatus
+    control: dropdown
+    items: ["No", "Yes"]
+    label: "Genetically modified"
+
+  - type: field
+    name: appn:BiologicalMaterial#appn:quarantineStatus
+    control: dropdown
+    items: ["quarantined", "not quarantined"]
+    label: "Quarantine status"
+
+  - type: section
+    text: "10. Material Source"
+    background: "#558B2F"
+
+  - type: field
+    name: appn:MaterialSource#appn:hasMaterialSource
+    control: text
+    label: "Material source (e.g. Organization, seed stock source) "
+
+  - type: field
+    name: appn:MaterialSource#schema:identifier
+    control: text
+    label: "Material identifier(s) (accession or repository number)"
+
+
+ 

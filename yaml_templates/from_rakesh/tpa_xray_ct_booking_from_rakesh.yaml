@@ -1,0 +1,266 @@
+formName: APPN_metadata_booking_example
+title: "APPN Service Booking Metadata Example Form"
+header_image: "/opt/logo/APPN_Logo_Transparent_medium.png"
+header_text: ""
+footer_text: "APPN Booking Sheet Metadata"
+# Remove a certain number of rows from the table - N.B. leave as 1 .
+section_count: "1" 
+#  page note to before the table:
+note_start: |
+  This is a template generated Microsoft Word form showing the field names that match the metadata names 
+  being used in APPN booking data collection.
+  
+  Please fill in the relevant details below.
+#  page note to display under the table:
+note: |
+  For further enquiries contact rakesh.david@adelaide.edu.au of the APPN Data Team
+
+rows:
+  
+  - type: section
+    text: "1. Investigation"
+    background: "#558B2F"
+
+  - type: field
+    name: appn:Investigation#schema:identifier
+    control: text
+    label: "schema:identifier"
+
+  - type: field
+    name: appn:Investigation#schema:name
+    control: text
+    label: "schema:name"
+
+  - type: field
+    name: appn:Investigation#schema:description
+    control: richtext
+    label: "schema:description"
+    
+  - type: section
+    text: "2. Study"
+    background: "#558B2F"
+
+  - type: field
+    name: appn:Study#schema:identifier
+    control: text
+    label: "schema:identifier"
+
+  - type: field
+    name: appn:Study#schema:alternateName
+    control: text
+    label: "schema:alternateName"
+
+  - type: field
+    name: appn:Study#schema:name
+    control: text
+    label: "schema:name" 
+
+  - type: field
+    name: appn:Study#schema:description
+    control: richtext
+    label: "schema:description"
+
+  - type: field
+    name: appn:Study#schema:additionalType
+    control: text
+    label: "schema:additionalType"
+
+  - type: section
+    text: "3. Person"
+    background: "#558B2F"
+
+  - type: field
+    name: appn:Person#schema:givenName
+    control: text
+    label: "schema:givenName"
+
+  - type: field
+    name: appn:Person#schema:familyName
+    control: text
+    label: "schema:familyName"
+
+  - type: field
+    name: appn:Person#schema:identifier
+    control: text
+    label: "schema:identifier"
+
+  - type: field
+    name: appn:Person#schema:email
+    control: text
+    label: "schema:email"
+
+  - type: field
+    name: appn:Person#schema:jobTitle
+    control: text
+    label: "schema:jobTitle"
+
+  - type: field
+    name: appn:Person#schema:roleName
+    control: text
+    label: "schema:roleName"
+
+  - type: field
+    name: appn:Person#schema:affiliation
+    control: text
+    label: "schema:affiliation"  
+
+  - type: section
+    text: "4. Organization"
+    background: "#558B2F"
+
+  - type: field
+    name: schema:Organization#schema:legalName
+    control: text
+    label: "schema:legalName" 
+
+  - type: field
+    name: schema:Organization#schema:identifier
+    control: text
+    label: "schema:identifier" 
+
+  - type: field
+    name: schema:Organization#schema:legalAddress
+    control: text
+    label: "schema:legalAddress"
+
+  - type: field
+    name: schema:Organization#schema:roleName
+    control: text
+    label: "schema:roleName"
+
+  - type: section
+    text: "5. Grant"
+    background: "#558B2F"
+
+  - type: field
+    name: schema:Grant#schema:name
+    control: text
+    label: "schema:name"
+
+  - type: field
+    name: schema:Grant#schema:identifier
+    control: text
+    label: "schema:identifier"
+
+  - type: field
+    name: schema:Grant#schema:funder
+    control: text
+    label: "schema:funder"
+
+  - type: field
+    name: schema:Grant#schema:fundedItem
+    control: text
+    label: "schema:fundedItem"
+
+  - type: field
+    name: schema:Grant#schema:amount
+    control: text
+    label: "schema:amount"
+
+  - type: section
+    text: "6. Spatial Location"
+    background: "#558B2F"
+
+  - type: field
+    name: appn:SpatialLocation#schema:name
+    control: text
+    label: "schema:name"
+ 
+  - type: field
+    name: appn:SpatialLocation#schema:latitude
+    control: text
+    label: "schema:latitude"
+
+  - type: field
+    name: appn:SpatialLocation#schema:longitude
+    control: text
+    label: "schema:longitude"
+
+  - type: field
+    name: appn:SpatialLocation#schema:polygon
+    control: text
+    label: "schema:polygon"
+
+  - type: section
+    text: "7. Growth Facility"
+    background: "#558B2F"
+
+  - type: field
+    name: appn:GrowthFacility#schema:name
+    control: text
+    label: "schema:name"
+
+  - type: field
+    name: appn:GrowthFacility#appn:hasGrowthFacilityType
+    control: text
+    label: "appn:hasGrowthFacilityType"
+
+  - type: section
+    text: "8. Sensor"
+    background: "#558B2F"
+
+  - type: field
+    name: appn:Sensor#schema:name
+    control: text
+    label: "schema:name"
+
+  - type: field
+    name: appn:Sensor#appn:hasSensorType
+    control: text
+    label: "appn:hasSensorType"
+
+  - type: section
+    text: "9. Biological Material"
+    background: "#558B2F"
+
+  - type: field
+    name: appn:BiologicalMaterial#schema:name
+    control: text
+    label: "schema:name"
+
+  - type: field
+    name: appn:BiologicalMaterial#schema:identifier
+    control: text
+    label: "schema:identifier"
+
+  - type: field
+    name: appn:BiologicalMaterial#appn:scientificName
+    control: text
+    label: "appn:scientificName"
+
+  - type: field
+    name: appn:BiologicalMaterial#appn:cultivarEpithet
+    control: text
+    label: "appn:cultivarEpithet"
+
+  - type: field
+    name: appn:BiologicalMaterial#appn:hasPreprocessing
+    control: text
+    label: "appn:hasPreprocessing"
+
+  - type: field
+    name: appn:BiologicalMaterial#appn:geneticallyModifiedStatus
+    control: text
+    label: "appn:geneticallyModifiedStatus"
+
+  - type: field
+    name: appn:BiologicalMaterial#appn:quarantineStatus
+    control: text
+    label: "appn:quarantineStatus"
+
+  - type: section
+    text: "10. Material Source"
+    background: "#558B2F"
+
+  - type: field
+    name: appn:MaterialSource#appn:hasMaterialSource
+    control: text
+    label: "appn:hasMaterialSource"
+
+  - type: field
+    name: appn:MaterialSource#schema:identifier
+    control: text
+    label: "schema:identifier"
+
+
+ 

@@ -1,6 +1,6 @@
 formName: TPA_xrayct_booking_sheet
 title: "TPA X-ray CT Booking Sheet"
-header_image: "/work/logo/APPN_logo_120x120.png"
+header_image: "/opt/logo/APPN_logo_120x120.png"
 header_text: "APPN Resource Booking - (Demo)"
 footer_text: "X-ray CT Booking Sheet"
 # Remove a certain number of rows from the table - N.B. leave as 1 .

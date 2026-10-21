@@ -49,6 +49,12 @@ COPY requirements.txt /app/requirements.txt
 RUN pip3 install --no-cache-dir -r /app/requirements.txt
 
 
+RUN mkdir -p /opt/logos
+COPY  \
+    logo/*.png \
+    /opt/logo/
+
+
 WORKDIR /app
 
 # Java app
